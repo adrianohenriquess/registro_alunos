@@ -1,0 +1,33 @@
+
+
+CREATE COMPUTE MODULE postAlunos_Compute1
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		DECLARE id INTEGER;
+		DECLARE name CHARACTER;
+		DECLARE email CHARACTER;
+		DECLARE phoneNumber CHARACTER;
+		SET id = InputRoot.JSON.Data.id;
+		SET name = InputRoot.JSON.Data.name;
+		SET email = InputRoot.JSON.Data.email;
+		SET phoneNumber = InputRoot.JSON.Data.phoneNumber;
+		
+		INSERT INTO Database.ALUNO(ID, NAME, EMAIL, PHONENUMBER) VALUES(id, name, email, phoneNumber);
+		SET OutputRoot.HTTPReplyHeader.LOCATION = Environment.Variables.URI || '/' || CAST(id AS CHARACTER);
+		RETURN TRUE;
+	END;
+
+	CREATE PROCEDURE CopyMessageHeaders() BEGIN
+		DECLARE I INTEGER 1;
+		DECLARE J INTEGER;
+		SET J = CARDINALITY(InputRoot.*[]);
+		WHILE I < J DO
+			SET OutputRoot.*[I] = InputRoot.*[I];
+			SET I = I + 1;
+		END WHILE;
+	END;
+
+	CREATE PROCEDURE CopyEntireMessage() BEGIN
+		SET OutputRoot = InputRoot;
+	END;
+END MODULE;

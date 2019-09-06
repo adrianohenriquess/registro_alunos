@@ -1,0 +1,109 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "title" : "registro_alunos",
+    "version" : "1.0.0",
+    "description" : "registro_alunos"
+  },
+  "paths" : {
+    "/alunos" : {
+      "get" : {
+        "operationId" : "getAlunos",
+        "responses" : {
+          "200" : {
+            "description" : "The operation was successful.",
+            "schema" : {
+              "type" : "string"
+            }
+          }
+        },
+        "produces" : [ "application/json" ],
+        "description" : "Retrieve alunos"
+      },
+      "post" : {
+        "operationId" : "postAlunos",
+        "responses" : {
+          "200" : {
+            "description" : "The operation was successful."
+          }
+        },
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "description" : "Insert a alunos",
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "schema" : {
+            "$ref" : "#/definitions/aluno"
+          },
+          "description" : "The request body for the operation",
+          "required" : true
+        } ]
+      }
+    },
+    "/alunos/{id}" : {
+      "get" : {
+        "operationId" : "getId",
+        "responses" : {
+          "200" : {
+            "description" : "The operation was successful.",
+            "schema" : {
+              "$ref" : "#/definitions/aluno"
+            }
+          },
+          "404" : {
+            "description" : "Aluno não encontrado",
+            "schema" : {
+              "$ref" : "#/definitions/Erro"
+            }
+          }
+        },
+        "produces" : [ "application/json" ],
+        "description" : "Retrieve id",
+        "parameters" : [ {
+          "required" : true,
+          "name" : "id",
+          "in" : "path",
+          "type" : "integer"
+        } ]
+      }
+    }
+  },
+  "basePath" : "/registro_alunos/v1",
+  "definitions" : {
+    "aluno" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "email" : {
+          "type" : "string"
+        },
+        "phoneNumber" : {
+          "type" : "string"
+        }
+      }
+    },
+    "Erro" : {
+      "type" : "object",
+      "properties" : {
+        "status" : {
+          "type" : "integer"
+        },
+        "error" : {
+          "type" : "string"
+        },
+        "message" : {
+          "type" : "string"
+        },
+        "path" : {
+          "type" : "string"
+        }
+      }
+    }
+  }
+}

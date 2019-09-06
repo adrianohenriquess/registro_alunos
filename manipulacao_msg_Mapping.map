@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?><mappingRoot xmlns="http://www.ibm.com/2008/ccl/Mapping" domainID="com.ibm.msl.mapping.xml" domainIDExtension="mb" mainMap="true" targetNamespace="default" version="8.0.5.0" xmlns:map="default">
+    <input path="jar:file://!com/ibm/etools/mft/map/xsds/predefined/JsonDomainMsg.xsd" var="var"/>
+    <input derivedFrom="MB:JSON_schema_in_swagger_document" path="/swagger.json" var="var1"/>
+    <output path="/aluno.xsd"/>
+    <namespaces>
+        <namespace kind="supplement" prefix="in" uri="http://www.ibm.com/iib/msl/json"/>
+        <namespace kind="supplement" prefix="out" uri="http://registro_alunos/aluno.xsd"/>
+    </namespaces>
+    <generation engine="xquery"/>
+    <mappingDeclaration name="manipulacao_msg_Mapping">
+        <input namespace="http://www.ibm.com/iib/msl/json" path="$var/mb:msg(JSON,assembly,JSON,Properties)" var="ComIbmMessageAssembly_JSON">
+            <cast derivedFrom="MB:JSON_operation_request" path="$ComIbmMessageAssembly_JSON/JSON/Data/type('anyType')" qualifier="{http://www.ibm.com/iib/msl/json}aluno" ref="var1"/>
+        </input>
+        <output namespace="http://registro_alunos/aluno.xsd" path="mb:msg(Aluno,assembly,XMLNSC,Properties)" var="ComIbmMessageAssembly_Aluno"/>
+        <move>
+            <input path="$ComIbmMessageAssembly_JSON/Properties"/>
+            <output path="$ComIbmMessageAssembly_Aluno/Properties"/>
+        </move>
+        <move>
+            <input path="$ComIbmMessageAssembly_JSON/JSON/spath('Data',2)/id"/>
+            <output path="$ComIbmMessageAssembly_Aluno/Aluno/id"/>
+        </move>
+        <move>
+            <input path="$ComIbmMessageAssembly_JSON/JSON/spath('Data',2)/name"/>
+            <output path="$ComIbmMessageAssembly_Aluno/Aluno/name"/>
+        </move>
+        <move>
+            <input path="$ComIbmMessageAssembly_JSON/JSON/spath('Data',2)/email"/>
+            <output path="$ComIbmMessageAssembly_Aluno/Aluno/email"/>
+        </move>
+        <move>
+            <input path="$ComIbmMessageAssembly_JSON/JSON/spath('Data',2)/phoneNumber"/>
+            <output path="$ComIbmMessageAssembly_Aluno/Aluno/phoneNumber"/>
+        </move>
+    </mappingDeclaration>
+</mappingRoot>
